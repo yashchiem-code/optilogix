@@ -87,7 +87,8 @@ ${this.generateEmailContent(notification)}
         let status: EmailStatus;
 
         try {
-            const response = await fetch('http://localhost:5002/send-email', {
+            const emailServiceUrl = import.meta.env.VITE_EMAIL_SERVICE_URL || 'http://localhost:5002';
+            const response = await fetch(`${emailServiceUrl}/send-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

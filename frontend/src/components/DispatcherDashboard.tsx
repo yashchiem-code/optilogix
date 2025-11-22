@@ -51,13 +51,14 @@ const DispatcherDashboard: React.FC = () => {
 
 
   const fetchDashboardData = async () => {
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
     try {
       const [docksRes, queueRes, appointmentsRes, recentAssignmentsRes] = await Promise.all([
 
-        axios.get<Dock[]>('http://localhost:3001/api/dispatcher/dock-status'),
-        axios.get<TruckInQueue[]>('http://localhost:3001/api/dispatcher/truck-queue'),
-        axios.get<Appointment[]>('http://localhost:3001/api/dispatcher/appointments'),
-        axios.get<Appointment[]>('http://localhost:3001/api/dispatcher/recent-assignments'),
+        axios.get<Dock[]>(`${API_BASE}/api/dispatcher/dock-status`),
+        axios.get<TruckInQueue[]>(`${API_BASE}/api/dispatcher/truck-queue`),
+        axios.get<Appointment[]>(`${API_BASE}/api/dispatcher/appointments`),
+        axios.get<Appointment[]>(`${API_BASE}/api/dispatcher/recent-assignments`),
 
       ]);
       console.log('Docks data from API:', docksRes.data);
@@ -84,9 +85,10 @@ const DispatcherDashboard: React.FC = () => {
 
 
   const handleTruckArrive = async (truckId: string) => {
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
     try {
       // Fetch the latest appointment for the truckId
-      const appointmentRes = await axios.get<Appointment[]>(`http://localhost:3001/api/dispatcher/appointments?truckId=${truckId}`);
+      const appointmentRes = await axios.get<Appointment[]>(`${API_BASE}/api/dispatcher/appointments?truckId=${truckId}`);
       const latestAppointment = appointmentRes.data[0]; // Assuming the first one is the latest
 
       if (!latestAppointment) {
@@ -94,7 +96,7 @@ const DispatcherDashboard: React.FC = () => {
         return;
       }
 
-      await axios.post('http://localhost:3001/api/trucks/arrive', { truckId, appointmentId: latestAppointment.id });
+      await axios.post(`${API_BASE}/api/trucks/arrive`, { truckId, appointmentId: latestAppointment.id });
       toast.success(`Truck ${truckId} marked as arrived!`);
       fetchDashboardData();
     } catch (error: unknown) {
@@ -111,10 +113,11 @@ const DispatcherDashboard: React.FC = () => {
     }
     const truckId = selectedTruck;
     const dockId = selectedDock;
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
 
     try {
       // Fetch the latest appointment for the selected truck
-      const appointmentRes = await axios.get<Appointment[]>(`http://localhost:3001/api/dispatcher/appointments?truckId=${truckId}`);
+      const appointmentRes = await axios.get<Appointment[]>(`${API_BASE}/api/dispatcher/appointments?truckId=${truckId}`);
       const latestAppointment = appointmentRes.data[0]; // Assuming the first one is the latest
 
       if (!latestAppointment) {
@@ -122,7 +125,7 @@ const DispatcherDashboard: React.FC = () => {
         return;
       }
 
-      await axios.post('http://localhost:3001/api/dispatcher/assign', { truckId, dockId, appointmentId: latestAppointment.id });
+      await axios.post(`${API_BASE}/api/dispatcher/assign`, { truckId, dockId, appointmentId: latestAppointment.id });
       toast.success(`Truck ${truckId} assigned to Dock ${dockId}!`);
       fetchDashboardData();
     } catch (error: unknown) {
@@ -133,8 +136,9 @@ const DispatcherDashboard: React.FC = () => {
   };
 
   const handleUpdateAssignmentStatus = async (appointmentId: number, status: Appointment['status']) => {
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
     try {
-      await axios.post('http://localhost:3001/api/assignments/update-status', { appointmentId, status });
+      await axios.post(`${API_BASE}/api/assignments/update-status`, { appointmentId, status });
       toast.success(`Assignment ${appointmentId} status updated to ${status}!`);
       fetchDashboardData();
     } catch (error: unknown) {
@@ -145,8 +149,9 @@ const DispatcherDashboard: React.FC = () => {
   };
 
   const handleTruckDepart = async (truckId: string) => {
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
     try {
-      await axios.post('http://localhost:3001/api/trucks/depart', { truckId });
+      await axios.post(`${API_BASE}/api/trucks/depart`, { truckId });
       toast.success(`Truck ${truckId} departed!`);
       fetchDashboardData();
     } catch (error: unknown) {
@@ -174,11 +179,11 @@ const DispatcherDashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Dock Status Grid */}
         <DockStatusGrid
-            docks={docks}
-            onAssignTruckToDock={handleAssignTruckToDock}
-            onSelectDock={setSelectedDock}
-            selectedDock={selectedDock}
-          />
+          docks={docks}
+          onAssignTruckToDock={handleAssignTruckToDock}
+          onSelectDock={setSelectedDock}
+          selectedDock={selectedDock}
+        />
 
         {/* Truck Queue */}
         <TruckQueueDisplay truckQueue={truckQueue} selectedTruck={selectedTruck} onSelectTruck={setSelectedTruck} />
@@ -192,11 +197,11 @@ const DispatcherDashboard: React.FC = () => {
       />
 
       {/* Recent Assignments */}
-          <RecentAssignments
-            assignments={recentAssignments}
-            onUpdateAssignmentStatus={handleUpdateAssignmentStatus}
-            onTruckDepart={handleTruckDepart}
-          />
+      <RecentAssignments
+        assignments={recentAssignments}
+        onUpdateAssignmentStatus={handleUpdateAssignmentStatus}
+        onTruckDepart={handleTruckDepart}
+      />
     </div>
   );
 };

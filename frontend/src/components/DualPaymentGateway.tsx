@@ -21,7 +21,8 @@ const DualPaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, 
             setLoading('razorpay');
 
             // Create order
-            const response = await fetch('http://localhost:5055/create-order', {
+            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5055';
+            const response = await fetch(`${backendUrl}/create-order`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount })
@@ -59,7 +60,8 @@ const DualPaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, 
             handler: async (response: any) => {
                 try {
                     // Verify payment
-                    const verifyResponse = await fetch('http://localhost:5055/verify-payment', {
+                    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5055';
+                    const verifyResponse = await fetch(`${backendUrl}/verify-payment`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(response)
@@ -105,7 +107,8 @@ const DualPaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, 
             const customerId = 'CUST_' + Date.now();
 
             // Initiate Paytm payment
-            const response = await fetch('http://localhost:5055/paytm/initiate', {
+            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5055';
+            const response = await fetch(`${backendUrl}/paytm/initiate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

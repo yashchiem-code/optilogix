@@ -2,124 +2,127 @@ import React, { useState } from 'react';
 import DualPaymentGateway from '../components/DualPaymentGateway';
 
 const PaymentTestPage: React.FC = () => {
-    const [paymentResult, setPaymentResult] = useState<any>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [amount, setAmount] = useState<number>(100);
+  const [paymentResult, setPaymentResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [amount, setAmount] = useState<number>(100);
 
-    const handlePaymentSuccess = (paymentData: any) => {
-        setPaymentResult(paymentData);
-        setError(null);
-        console.log('Payment successful:', paymentData);
-    };
+  const handlePaymentSuccess = (paymentData: any) => {
+    setPaymentResult(paymentData);
+    setError(null);
+    console.log('Payment successful:', paymentData);
+  };
 
-    const handlePaymentError = (errorMessage: string) => {
-        setError(errorMessage);
-        setPaymentResult(null);
-        console.error('Payment error:', errorMessage);
-    };
+  const handlePaymentError = (errorMessage: string) => {
+    setError(errorMessage);
+    setPaymentResult(null);
+    console.error('Payment error:', errorMessage);
+  };
 
-    const resetTest = () => {
-        setPaymentResult(null);
-        setError(null);
-    };
+  const resetTest = () => {
+    setPaymentResult(null);
+    setError(null);
+  };
 
-    return (
-        <div className="payment-test-page">
-            <div className="container">
-                <h1>Payment Gateway Testing</h1>
-                <p>Test both Razorpay and Paytm payment gateways</p>
+  return (
+    <div className="payment-test-page">
+      <div className="container">
+        <h1>Payment Gateway Testing</h1>
+        <p>Test both Razorpay and Paytm payment gateways</p>
 
-                <div className="amount-selector">
-                    <label htmlFor="amount">Test Amount (₹):</label>
-                    <select
-                        id="amount"
-                        value={amount}
-                        onChange={(e) => setAmount(Number(e.target.value))}
-                    >
-                        <option value={1}>₹1 (Minimum)</option>
-                        <option value={10}>₹10</option>
-                        <option value={100}>₹100</option>
-                        <option value={500}>₹500</option>
-                        <option value={1000}>₹1000</option>
-                    </select>
-                </div>
+        <div className="amount-selector">
+          <label htmlFor="amount">Test Amount (₹):</label>
+          <select
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(Number(e.target.value))}
+          >
+            <option value={1}>₹1 (Minimum)</option>
+            <option value={10}>₹10</option>
+            <option value={100}>₹100</option>
+            <option value={500}>₹500</option>
+            <option value={1000}>₹1000</option>
+          </select>
+        </div>
 
-                {!paymentResult && !error && (
-                    <DualPaymentGateway
-                        amount={amount}
-                        onSuccess={handlePaymentSuccess}
-                        onError={handlePaymentError}
-                    />
-                )}
+        {!paymentResult && !error && (
+          <DualPaymentGateway
+            amount={amount}
+            onSuccess={handlePaymentSuccess}
+            onError={handlePaymentError}
+          />
+        )}
 
-                {paymentResult && (
-                    <div className="result-card success">
-                        <h3>✅ Payment Successful!</h3>
-                        <div className="result-details">
-                            <p><strong>Gateway:</strong> {paymentResult.gateway}</p>
-                            <p><strong>Order ID:</strong> {paymentResult.orderId}</p>
-                            {paymentResult.paymentId && (
-                                <p><strong>Payment ID:</strong> {paymentResult.paymentId}</p>
-                            )}
-                            {paymentResult.amount && (
-                                <p><strong>Amount:</strong> ₹{paymentResult.amount}</p>
-                            )}
-                            {paymentResult.message && (
-                                <p><strong>Message:</strong> {paymentResult.message}</p>
-                            )}
-                        </div>
-                        <button onClick={resetTest} className="reset-button">
-                            Test Another Payment
-                        </button>
-                    </div>
-                )}
-
-                {error && (
-                    <div className="result-card error">
-                        <h3>❌ Payment Failed</h3>
-                        <p className="error-message">{error}</p>
-                        <button onClick={resetTest} className="reset-button">
-                            Try Again
-                        </button>
-                    </div>
-                )}
-
-                <div className="test-info">
-                    <h3>Testing Information</h3>
-
-                    <div className="gateway-info">
-                        <h4>Razorpay Test Cards</h4>
-                        <ul>
-                            <li><strong>Success:</strong> 4111 1111 1111 1111</li>
-                            <li><strong>Failure:</strong> 4000 0000 0000 0002</li>
-                            <li><strong>CVV:</strong> Any 3 digits</li>
-                            <li><strong>Expiry:</strong> Any future date</li>
-                        </ul>
-                    </div>
-
-                    <div className="gateway-info">
-                        <h4>Paytm Test Credentials</h4>
-                        <ul>
-                            <li><strong>Mobile:</strong> 7777777777</li>
-                            <li><strong>OTP:</strong> 489871</li>
-                            <li><strong>Test Card:</strong> 4111 1111 1111 1111</li>
-                            <li><strong>CVV:</strong> 123, <strong>Expiry:</strong> 12/25</li>
-                        </ul>
-                    </div>
-
-                    <div className="gateway-info">
-                        <h4>Backend Status</h4>
-                        <button
-                            onClick={() => window.open('http://localhost:5055/health', '_blank')}
-                            className="health-check-button"
-                        >
-                            Check Backend Health
-                        </button>
-                    </div>
-                </div>
+        {paymentResult && (
+          <div className="result-card success">
+            <h3>✅ Payment Successful!</h3>
+            <div className="result-details">
+              <p><strong>Gateway:</strong> {paymentResult.gateway}</p>
+              <p><strong>Order ID:</strong> {paymentResult.orderId}</p>
+              {paymentResult.paymentId && (
+                <p><strong>Payment ID:</strong> {paymentResult.paymentId}</p>
+              )}
+              {paymentResult.amount && (
+                <p><strong>Amount:</strong> ₹{paymentResult.amount}</p>
+              )}
+              {paymentResult.message && (
+                <p><strong>Message:</strong> {paymentResult.message}</p>
+              )}
             </div>
+            <button onClick={resetTest} className="reset-button">
+              Test Another Payment
+            </button>
+          </div>
+        )}
 
-            <style jsx>{`
+        {error && (
+          <div className="result-card error">
+            <h3>❌ Payment Failed</h3>
+            <p className="error-message">{error}</p>
+            <button onClick={resetTest} className="reset-button">
+              Try Again
+            </button>
+          </div>
+        )}
+
+        <div className="test-info">
+          <h3>Testing Information</h3>
+
+          <div className="gateway-info">
+            <h4>Razorpay Test Cards</h4>
+            <ul>
+              <li><strong>Success:</strong> 4111 1111 1111 1111</li>
+              <li><strong>Failure:</strong> 4000 0000 0000 0002</li>
+              <li><strong>CVV:</strong> Any 3 digits</li>
+              <li><strong>Expiry:</strong> Any future date</li>
+            </ul>
+          </div>
+
+          <div className="gateway-info">
+            <h4>Paytm Test Credentials</h4>
+            <ul>
+              <li><strong>Mobile:</strong> 7777777777</li>
+              <li><strong>OTP:</strong> 489871</li>
+              <li><strong>Test Card:</strong> 4111 1111 1111 1111</li>
+              <li><strong>CVV:</strong> 123, <strong>Expiry:</strong> 12/25</li>
+            </ul>
+          </div>
+
+          <div className="gateway-info">
+            <h4>Backend Status</h4>
+            <button
+              onClick={() => {
+                const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5055';
+                window.open(`${backendUrl}/health`, '_blank');
+              }}
+              className="health-check-button"
+            >
+              Check Backend Health
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
         .payment-test-page {
           min-height: 100vh;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -263,8 +266,8 @@ const PaymentTestPage: React.FC = () => {
           background: #45a049;
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default PaymentTestPage;

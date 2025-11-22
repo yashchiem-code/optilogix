@@ -16,8 +16,9 @@ const PreArrivalSchedulingForm: React.FC<PreArrivalSchedulingFormProps> = ({ onA
   const [newAppointmentType, setNewAppointmentType] = useState<'loading' | 'unloading'>('loading');
 
   const handleBookAppointment = async () => {
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
     try {
-      await axios.post('http://localhost:3001/api/appointments/book', {
+      await axios.post(`${API_BASE}/api/appointments/book`, {
         truckId: newTruckId,
         supplier: newSupplier,
         requestedTime: newRequestedTime,

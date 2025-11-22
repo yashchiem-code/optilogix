@@ -22,11 +22,12 @@ const DriverView = () => {
 
   useEffect(() => {
     const fetchAssignment = async () => {
+      const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
       try {
-        const response = await axios.get(`http://localhost:3001/api/driver/assignments/${driverId}`);
+        const response = await axios.get(`${API_BASE}/api/driver/assignments/${driverId}`);
         if (response.data && response.data.length > 0) {
           // Assuming the driver gets one active assignment at a time
-          const fetchedAssignment = response.data[0]; 
+          const fetchedAssignment = response.data[0];
           setAssignment(fetchedAssignment);
           if (ttsEnabled && 'speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance(
@@ -58,9 +59,9 @@ const DriverView = () => {
   }, []);
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour12: false, 
-      hour: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
       minute: '2-digit',
       second: '2-digit'
     });
@@ -148,7 +149,7 @@ const DriverView = () => {
                   Items: {assignment.items.join(', ')}
                 </div>
               )}
-              <Badge 
+              <Badge
                 className={`${getStatusColor(assignment.status)} text-white text-sm`}
               >
                 {assignment.status.toUpperCase()}
@@ -158,7 +159,7 @@ const DriverView = () => {
                 {/* Assigned at {formatTime(assignment.assignedAt)} */}
                 {/* The backend assignment object does not currently include an 'assignedAt' field. */}
               </div>
-              
+
               <div className="flex gap-2 mt-4">
                 <Button
                   size="sm"

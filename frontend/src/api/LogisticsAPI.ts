@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/logistics'; // Adjust as per your backend logistics API endpoint
+const API_URL = `${import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001'}/api/logistics`;
 
 export const fetchLogisticsData = async () => {
   try {

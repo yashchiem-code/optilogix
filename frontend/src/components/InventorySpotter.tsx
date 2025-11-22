@@ -31,8 +31,9 @@ const InventorySpotter = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
       try {
-        const response = await fetch('http://localhost:3001/api/products'); // Assuming an endpoint to get all products
+        const response = await fetch(`${API_BASE}/api/products`);
         if (response.ok) {
           const allProducts: Product[] = await response.json();
           setProducts(allProducts);
@@ -71,22 +72,23 @@ const InventorySpotter = () => {
     if (barcode.startsWith('{')) {
       try {
         parsed = JSON.parse(barcode);
-      if (parsed && parsed.scannedData) {
-        // Prioritize itemCode, then productIdentifier
-        if (parsed.scannedData.itemCode && parsed.scannedData.itemCode.example) {
-          barcodeValue = parsed.scannedData.itemCode.example;
-        } else if (parsed.scannedData.productIdentifier && parsed.scannedData.productIdentifier.example) {
-          barcodeValue = parsed.scannedData.productIdentifier.example;
+        if (parsed && parsed.scannedData) {
+          // Prioritize itemCode, then productIdentifier
+          if (parsed.scannedData.itemCode && parsed.scannedData.itemCode.example) {
+            barcodeValue = parsed.scannedData.itemCode.example;
+          } else if (parsed.scannedData.productIdentifier && parsed.scannedData.productIdentifier.example) {
+            barcodeValue = parsed.scannedData.productIdentifier.example;
+          }
         }
-      }
-    } catch (e) {
-      // If not JSON, or parsing failed, or expected fields not found, use as-is
-      console.log('Barcode is not JSON or expected format, using raw text:', e);
+      } catch (e) {
+        // If not JSON, or parsing failed, or expected fields not found, use as-is
+        console.log('Barcode is not JSON or expected format, using raw text:', e);
       }
     }
 
+    const API_BASE = import.meta.env.VITE_TRACKSMART_API_URL || 'http://localhost:3001';
     try {
-      const response = await fetch(`http://localhost:3001/api/products/${barcodeValue}`);
+      const response = await fetch(`${API_BASE}/api/products/${barcodeValue}`);
       if (response.ok) {
         const product: Product = await response.json();
         const newProduct = { ...product };
@@ -125,7 +127,7 @@ const InventorySpotter = () => {
     const grid = warehouseGrid.map(row => row.slice());
 
 
-     if (grid.length === 0 || grid[0].length === 0) {
+    if (grid.length === 0 || grid[0].length === 0) {
       console.warn('Warehouse grid is empty or malformed.');
       return;
     }
@@ -175,13 +177,13 @@ const InventorySpotter = () => {
       for (const neighbor of neighbors) {
         if (
           neighbor.x >= 0 &&
-           grid.length > 0 && grid[0] && neighbor.x < grid[0].length &&
-            neighbor.y >= 0 &&
+          grid.length > 0 && grid[0] && neighbor.x < grid[0].length &&
+          neighbor.y >= 0 &&
           neighbor.y < grid.length &&
           (neighbor.x === end.x && neighbor.y === end.y) || // Allow end node to be traversable
           (neighbor.x === start.x && neighbor.y === start.y) || // Allow start node to be traversable
           (grid[neighbor.y] && grid[neighbor.y][neighbor.x] !== 1 &&
-          !(neighbor.x % 2 === 0 && neighbor.y % 2 === 0)) // Ensure not a shelf (shelves are obstacles)
+            !(neighbor.x % 2 === 0 && neighbor.y % 2 === 0)) // Ensure not a shelf (shelves are obstacles)
         ) {
           const neighborKey = `${neighbor.x},${neighbor.y}`;
           if (closedList.has(neighborKey)) {
