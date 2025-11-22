@@ -11,8 +11,21 @@ app.use(cors());
 
 const becknRoutes = require('./routes/becknRoutes');
 const logisticsRoutes = require('./routes/logisticsRoutes');
+const dispatcherRoutes = require('./routes/dispatcherRoutes');
+const trucksRoutes = require('./routes/trucksRoutes');
+const appointmentsRoutes = require('./routes/appointmentsRoutes');
+const assignmentsRoutes = require('./routes/assignmentsRoutes');
+const driverRoutes = require('./routes/driverRoutes');
+const productsRoutes = require('./routes/productsRoutes');
+
 app.use('/beckn', becknRoutes);
 app.use('/api/logistics', logisticsRoutes);
+app.use('/api/dispatcher', dispatcherRoutes);
+app.use('/api/trucks', trucksRoutes);
+app.use('/api/appointments', appointmentsRoutes);
+app.use('/api/assignments', assignmentsRoutes);
+app.use('/api/driver', driverRoutes);
+app.use('/api/products', productsRoutes);
 
 const PORT = 3001;
 
