@@ -1,0 +1,27 @@
+{
+  "name": "optilogix",
+  "version": "1.0.0",
+  "description": "OptiLogix – A smart Supply Chain and Logistics Management System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEBDEEP-BANERJ2E/OptiLogix.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DEBDEEP-BANERJ2E/OptiLogix/issues"
+  },
+  "homepage": "https://github.com/DEBDEEP-BANERJ2E/OptiLogix#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.0.0",
+    "hardhat": "^2.25.0"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}
