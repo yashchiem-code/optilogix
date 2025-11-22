@@ -8,15 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DEBDEEP-BANERJ2E/OptiLogix.git"
+    "url": "git+https://github.com/your-username/OptiLogix.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DEBDEEP-BANERJ2E/OptiLogix/issues"
-  },
-  "homepage": "https://github.com/DEBDEEP-BANERJ2E/OptiLogix#readme",
+  "keywords": [
+    "supply-chain",
+    "logistics",
+    "blockchain",
+    "ai",
+    "hackathon"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.0.0",
     "hardhat": "^2.25.0"

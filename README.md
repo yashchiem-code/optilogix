@@ -21,92 +21,107 @@ OptiLogix offers a robust suite of features to streamline logistics operations:
 
 ## ⚙️ Project Structure
 
-OptiLogix is composed of three main components:
+OptiLogix is composed of multiple backend services and a frontend:
 
-*   `backend`: Contains the core logic and API services.
-*   `backendOmni`: Handles specialized backend functionalities, potentially related to AI or specific integrations.
-*   `frontend`: The user interface and client-side application.
+*   `backend`: Payment gateway integration (Razorpay)
+*   `backendOmni`: AI-powered chatbot service (Python)
+*   `tracksmart_backend`: BECKN protocol implementation for logistics
+*   `email_backend`: Email notification service (Python)
+*   `frontend`: React TypeScript user interface
+*   `contracts`: Blockchain smart contracts for provenance tracking
 
 ## 🛠️ Installation
 
-To set up OptiLogix locally, follow these steps:
-
 ### Prerequisites
 
-*   React-Typescript (for frontend)
-*   Node.js and Python (for backend)
-*   Docker (recommended for easy setup of services)
+*   Node.js (v16+)
+*   Python (v3.8+)
+*   npm or yarn
 
-### Steps
+### Quick Start
 
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/your-repo/OptiLogix.git
+    git clone https://github.com/your-username/OptiLogix.git
     cd OptiLogix
     ```
 
-2.  **Backend Setup:**
+2.  **Backend Setup (Payment Gateway):**
 
     ```bash
     cd backend
-    pip install -r requirements.txt
-    # Further backend setup instructions (e.g., database migration, environment variables)
-    cd ..
+    npm install
+    # Create .env file with your Razorpay credentials
+    npm start
     ```
 
-3.  **BackendOmni Setup:**
+3.  **AI Chatbot Backend:**
 
     ```bash
     cd backendOmni
     pip install -r requirements.txt
-    # Further backendOmni setup instructions
-    cd ..
+    python index.py
     ```
 
-4.  **Frontend Setup:**
+4.  **Email Service:**
+
+    ```bash
+    cd email_backend
+    pip install -r requirements.txt
+    python app.py
+    ```
+
+5.  **TrackSmart Backend (BECKN):**
+
+    ```bash
+    cd tracksmart_backend
+    npm install
+    node index.js
+    ```
+
+6.  **Frontend:**
 
     ```bash
     cd frontend
-    npm install # or yarn install
-    # Further frontend setup instructions
-    cd ..
+    npm install
+    npm run dev
     ```
 
 ## 🚀 Usage
 
-### Running the Application
+Once all services are running, open your browser and navigate to `http://localhost:5173` (or the specified frontend port).
 
-1.  **Start the Backend:**
+### Environment Variables
 
-    ```bash
-    cd backend
-    npm start # or appropriate command
-    cd ..
-    ```
+Create `.env` files in respective directories:
 
-2.  **Start the BackendOmni:**
+**backend/.env:**
+```
+RAZORPAY_KEY_ID=your_key_id
+RAZORPAY_KEY_SECRET=your_key_secret
+PORT=5000
+```
 
-    ```bash
-    cd backendOmni
-    python app.py # or appropriate command
-    cd ..
-    ```
+**frontend/.env:**
+```
+VITE_API_URL=http://localhost:5000
+VITE_BECKN_API_URL=http://localhost:3000
+```
 
-3.  **Start the Frontend:**
+## 🏗️ Architecture
 
-    ```bash
-    cd frontend
-    npm run dev 
-    cd ..
-    ```
+OptiLogix uses a microservices architecture with:
+- Multiple specialized backend services
+- React TypeScript frontend
+- Blockchain integration for supply chain transparency
+- Real-time WebSocket communication
+- AI-powered assistance
 
-Once all services are running, open your browser and navigate to `http://localhost:3000` (or the specified frontend port).
+## 📸 Visual Demonstrations
 
-## Visual Demonstrations
-![BECKN Flowchart] (https://ibb.co/XdPVPhN)
-
-![BECKN Architecture] (https://ibb.co/RTXMC3Y0)
+![BECKN Flowchart](https://ibb.co/XdPVPhN)
+![BECKN Architecture](https://ibb.co/RTXMC3Y0)
 
 ## 🤝 Contributing
 
