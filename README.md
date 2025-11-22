@@ -120,8 +120,11 @@ OptiLogix uses a microservices architecture with:
 
 ## 📸 Visual Demonstrations
 
-![BECKN Flowchart](https://ibb.co/XdPVPhN)
-![BECKN Architecture](https://ibb.co/RTXMC3Y0)
+### BECKN FLOW 
+<img width="2330" height="1412" alt="image" src="https://github.com/user-attachments/assets/ac0f2fc9-ec76-404d-a8b6-70378225bbdb" />
+
+
+
 
 ## 🤝 Contributing
 
