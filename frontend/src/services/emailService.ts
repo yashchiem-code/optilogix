@@ -79,7 +79,7 @@ ${this.generateEmailContent(notification)}
         const body = this.generateEmailContent(notification);
 
         const emailData = {
-            to: to,
+            receiver_email: to,
             subject: subject,
             body: body
         };
